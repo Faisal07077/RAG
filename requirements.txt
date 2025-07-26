@@ -1,0 +1,7 @@
+streamlit
+faiss-cpu
+pandas
+pdfminer.six
+python-docx
+python-pptx
+markdown
