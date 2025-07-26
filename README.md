@@ -24,8 +24,3 @@ A document-based chatbot that uses a **multi-agent architecture** with **Model C
 
 ---
 
-## 🛠️ How to Run
-
-1. Install dependencies:
-```bash
-pip install -r requirements.txt
