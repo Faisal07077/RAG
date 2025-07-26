@@ -15,12 +15,18 @@ A document-based chatbot that uses a **multi-agent architecture** with **Model C
 
 ---
 
-## 🧠 Agent Roles
+## 🛠️ Setup Instructions
 
-- **Ingestion Agent** → Parses and chunks uploaded files
-- **Retrieval Agent** → Performs semantic search with FAISS
-- **LLM Response Agent** → Generates answers based on retrieved context
-- **Coordinator Agent** → Controls agent interactions via MCP
+### 🔧 Prerequisites
+Make sure you have the following installed:
+- Python 3.9 or above
+- pip (Python package manager)
 
----
+### 📦 Step-by-Step
 
+1. **Clone the repository** (or download ZIP):
+```bash
+git clone https://github.com/Faisal07077/RAG.git
+cd RAG
+pip install -r requirements.txt
+streamlit run app.py
