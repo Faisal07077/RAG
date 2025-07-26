@@ -14,7 +14,7 @@ class LocalLLMGenerator:
         self, 
         query: str, 
         context_chunks: List[Dict[str, Any]], 
-        conversation_history: List[Dict[str, str]] = None
+        conversation_history: List[Dict[str, str]] = []
     ) -> str:
         """Generate response using retrieved context"""
         try:

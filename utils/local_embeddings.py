@@ -45,16 +45,24 @@ class LocalEmbeddingGenerator:
             
             # Transform text to vector
             sparse_vector = self.vectorizer.transform([cleaned_text])
-            vector = sparse_vector.toarray()[0]
+            try:
+                vector = sparse_vector.toarray()[0]
+            except (AttributeError, TypeError):
+                # Handle case where sparse_vector is not sparse or has different structure
+                if hasattr(sparse_vector, '__getitem__') and hasattr(sparse_vector, '__len__'):
+                    vector = np.array(sparse_vector[0] if len(sparse_vector) > 0 else [])
+                else:
+                    vector = np.array(sparse_vector) if hasattr(sparse_vector, '__iter__') else np.zeros(self.dimension)
             
-            # Ensure consistent dimension
+            # Ensure consistent dimension and type
+            vector = np.array(vector, dtype=np.float32)
             if len(vector) < self.dimension:
                 # Pad with zeros if needed
                 padded_vector = np.zeros(self.dimension, dtype=np.float32)
                 padded_vector[:len(vector)] = vector
                 return padded_vector
             else:
-                return vector[:self.dimension].astype(np.float32)
+                return vector[:self.dimension]
             
         except Exception as e:
             print(f"Warning: Failed to generate embedding: {str(e)}")

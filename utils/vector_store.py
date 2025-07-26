@@ -51,7 +51,8 @@ class VectorStore:
                 query_embedding = query_embedding / np.linalg.norm(query_embedding)
             
             # Search FAISS index
-            similarities, indices = self.index.search(query_embedding.reshape(1, -1), min(top_k, self.index.ntotal))
+            query_reshaped = query_embedding.reshape(1, -1)
+            similarities, indices = self.index.search(query_reshaped, min(top_k, self.index.ntotal))
             
             # Convert results
             results = []

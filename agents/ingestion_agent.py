@@ -47,10 +47,14 @@ class IngestionAgent:
                 )
             
             # Parse document content
-            parsed_content = await self._parse_document(file_name, file_content, file_type)
+            parsed_content = await self._parse_document(
+                str(file_name), 
+                file_content if isinstance(file_content, bytes) else bytes(file_content, 'utf-8'), 
+                str(file_type) if file_type else ""
+            )
             
             # Store processed document
-            doc_id = str(uuid.uuid4())
+            doc_id = str(uuid.uuid4()) if parsed_content else str(uuid.uuid4())
             self.processed_documents[doc_id] = {
                 "id": doc_id,
                 "name": file_name,
@@ -155,7 +159,7 @@ class IngestionAgent:
     
     def get_document(self, doc_id: str) -> Dict:
         """Get specific document by ID"""
-        return self.processed_documents.get(doc_id)
+        return self.processed_documents.get(doc_id, {})
     
     def clear_documents(self) -> None:
         """Clear all processed documents"""

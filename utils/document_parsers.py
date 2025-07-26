@@ -83,8 +83,14 @@ class DocumentParser:
                     
                     # Extract text from shapes
                     for shape in slide.shapes:
-                        if hasattr(shape, "text") and shape.text.strip():
-                            slide_text_parts.append(shape.text.strip())
+                        if hasattr(shape, "text"):
+                            try:
+                                text = shape.text
+                                if text and text.strip():
+                                    slide_text_parts.append(text.strip())
+                            except (AttributeError, Exception):
+                                # Skip shapes that don't have accessible text
+                                continue
                     
                     if slide_text_parts:
                         slide_text = "\n".join(slide_text_parts)
@@ -156,9 +162,9 @@ class DocumentParser:
             
             # Add rows (limit to prevent huge text)
             max_rows = min(1000, len(df))
-            for idx, row in df.head(max_rows).iterrows():
+            for i, (idx, row) in enumerate(df.head(max_rows).iterrows()):
                 row_text = " | ".join([str(val) for val in row.values])
-                text_parts.append(f"Row {idx + 1}: {row_text}")
+                text_parts.append(f"Row {i + 1}: {row_text}")
             
             if len(df) > max_rows:
                 text_parts.append(f"... and {len(df) - max_rows} more rows")
